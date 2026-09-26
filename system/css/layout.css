@@ -1,0 +1,104 @@
+/* ============================================
+   DocuMind — Layout
+   ============================================ */
+
+header {
+  display: flex;
+  align-items: center;
+  padding: 11px 22px;
+  border-bottom: 1px solid var(--border);
+  background: var(--bg-panel);
+  gap: var(--gap-lg);
+}
+
+.brand {
+  display: flex;
+  align-items: center;
+  gap: var(--gap-sm);
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: 15px;
+  white-space: nowrap;
+}
+
+.breadcrumb {
+  display: flex;
+  align-items: center;
+  gap: var(--gap-xs);
+  font-family: var(--font-mono);
+  font-size: 12px;
+  color: var(--text-muted);
+  padding-left: var(--gap-md);
+  border-left: 1px solid var(--border);
+  margin-left: var(--gap-xs);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.breadcrumb .crumb-sep { color: var(--text-faint); }
+.breadcrumb .crumb-doc { color: var(--text-2); font-weight: 500; }
+
+.header-right {
+  margin-left: auto;
+  display: flex;
+  align-items: center;
+  gap: var(--gap-sm);
+}
+
+.stats {
+  display: flex;
+  gap: var(--gap-lg);
+  align-items: center;
+  color: var(--text-muted);
+  overflow-x: auto;
+  padding: 5px 11px;
+  background: var(--bg-subtle);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+}
+
+.stats .sep { color: var(--border-strong); }
+.stats b { color: var(--accent-text); font-weight: 600; }
+
+.layout {
+  display: flex;
+  height: calc(100vh - 58px);
+  min-height: 520px;
+}
+
+.col { overflow: auto; }
+
+.left {
+  width: 39%;
+  min-width: 320px;
+  border-right: 1px solid var(--border);
+  padding: 18px;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.right {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  background: var(--bg);
+}
+
+@media (max-width: 860px) {
+  .layout { flex-direction: column; height: auto; }
+  .left, .right { width: 100%; min-width: 0; }
+  .left { border-right: none; border-bottom: 1px solid var(--border); }
+  header { flex-wrap: wrap; }
+  .breadcrumb { border-left: none; padding-left: 0; margin-left: 0; }
+}
+
+@media (max-width: 560px) {
+  header { padding: 10px 14px; gap: 10px; }
+  .stats { display: none; }
+  .breadcrumb { display: none; }
+  .left { padding: 12px; }
+  .chat-log { padding: 18px 14px; }
+  .composer { padding: 10px 14px; }
+}

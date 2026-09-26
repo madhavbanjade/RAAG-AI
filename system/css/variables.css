@@ -1,0 +1,76 @@
+/* ============================================
+   DocuMind — Design Tokens (Green theme, light)
+   ============================================ */
+
+:root {
+  /* Surfaces */
+  --bg: #ffffff;
+  --bg-panel: #ffffff;
+  --bg-subtle: #f4f6f4;
+  --bg-hover: #eaece9;
+
+  /* Borders */
+  --border: #e2e5e2;
+  --border-strong: #ccd1cc;
+
+  /* Text */
+  --text: #1b211d;
+  --text-2: #4c544e;
+  --text-muted: #7c847e;
+  --text-faint: #a7aca7;
+
+  /* Accent */
+  --accent: #166d4a;
+  --accent-light: #e5f3ec;
+  --accent-text: #146442;
+
+  /* Chat bubbles */
+  --bubble-user: #e2f2e9;
+  --bubble-ai: #ffffff;
+  --bubble-ai-border: #e6e9e6;
+
+  /* Strategy / data colors */
+  --strategy-simple: #3b7dde;
+  --strategy-semantic: #8b5cf6;
+  --strategy-hybrid: #f0a63e;
+  --strategy-rerank: #1fa062;
+
+  /* Status */
+  --status-high: #1fa062;
+  --status-medium: #d99a2b;
+  --status-low: #9aa39d;
+  --status-error: #c0453a;
+
+  /* Radius */
+  --radius-sm: 8px;
+  --radius-md: 12px;
+  --radius-lg: 16px;
+  --radius-xl: 18px;
+
+  /* Gap */
+  --gap-xs: 4px;
+  --gap-sm: 8px;
+  --gap-md: 12px;
+  --gap-lg: 16px;
+  --gap-xl: 20px;
+
+  /* Shadow */
+  --shadow-card: 0 1px 3px rgba(0, 0, 0, 0.08);
+  --shadow-float: 0 4px 16px rgba(0, 0, 0, 0.12);
+  --shadow-pdf: 0 8px 32px rgba(0, 0, 0, 0.18);
+
+  /* Motion */
+  --ease-out: ease-out;
+  --dur-msgIn: 240ms;
+  --dur-fadeIn: 200ms;
+  --dur-expand: 180ms;
+  --dur-typing: 1300ms;
+  --dur-spin: 750ms;
+
+  /* Fonts */
+  --font-display: "DM Sans", sans-serif;
+  --font-body: "DM Sans", sans-serif;
+  --font-mono: "IBM Plex Mono", monospace;
+
+  color-scheme: light;
+}

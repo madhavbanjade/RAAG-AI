@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+<title>DocuMind</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link
+  href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap"
+  rel="stylesheet"
+/>
+
+<link rel="stylesheet" href="css/variables.css" />
+<link rel="stylesheet" href="css/base.css" />
+<link rel="stylesheet" href="css/layout.css" />
+<link rel="stylesheet" href="css/components.css" />
+<link rel="stylesheet" href="css/animations.css" />
+</head>
+<body>
+
+<div class="auth-overlay hidden" id="authOverlay">
+  <div class="card auth-card">
+    <button class="auth-close" id="authClose" title="Close" type="button">✕</button>
+    <div class="brand" style="justify-content:center;margin-bottom:var(--gap-lg);"><div class="logo">D</div>DocuMind</div>
+    <div class="section-title" id="authTitle" style="justify-content:center;">Sign in to DocuMind</div>
+    <form id="authForm">
+      <div class="auth-field" id="authNameField" style="display:none;">
+        <label for="authName">Full name</label>
+        <input type="text" id="authName" autocomplete="name" placeholder="Alex Johnson" />
+      </div>
+      <div class="auth-field">
+        <label for="authEmail">Email address</label>
+        <input type="email" id="authEmail" autocomplete="email" placeholder="alex@company.com" required />
+      </div>
+      <div class="auth-field">
+        <label for="authPassword">Password</label>
+        <input type="password" id="authPassword" autocomplete="current-password" required />
+      </div>
+      <div class="auth-error" id="authError"></div>
+      <button type="submit" class="btn auth-submit" id="authSubmit">Continue →</button>
+    </form>
+    <div class="auth-toggle"><span id="authToggleText">Don't have an account?</span> <a href="#" id="authToggleLink">Register</a></div>
+  </div>
+</div>
+
+<header id="appHeader">
+  <div class="brand"><div class="logo">D</div>DocuMind</div>
+  <div class="breadcrumb"><span>workspace</span><span class="crumb-sep">›</span><span class="crumb-doc" id="crumbDoc">no document</span></div>
+  <div class="header-right">
+    <div class="stat-pill font-mono text-12 hidden" id="statChunksPill">⬡ <b id="statChunks">0</b> chunks</div>
+    <div class="stat-pill font-mono text-12 hidden" id="statModelPill">⚙ text-embedding-3-small</div>
+    <span class="header-divider hidden" id="headerDivider"></span>
+    <div class="user-chip hidden" id="userChip">
+      <span class="user-avatar" id="userAvatar"></span>
+      <span class="text-13" id="userLabel"></span>
+    </div>
+    <button class="btn-danger-outline hidden" id="logoutBtn" title="Log out">⇥ Logout</button>
+    <button class="btn-primary" id="authTrigger">→ Sign in</button>
+  </div>
+</header>
+
+<div class="layout" id="mainLayout">
+  <!-- LEFT: document -->
+  <div class="col left">
+    <div class="card" id="uploadCard">
+      <div class="upload-row">
+        <div class="file-icon">📄</div>
+        <div class="file-meta">
+          <div class="name" id="fileName">No document selected</div>
+          <div class="sub" id="fileSub">Upload a PDF to start querying</div>
+        </div>
+        <button class="btn" id="uploadBtn">Upload</button>
+        <input type="file" id="fileInput" accept="application/pdf" />
+      </div>
+      <div class="upload-progress hidden" id="uploadProgress">
+        <div class="upload-progress-bar"></div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="strategies-header">
+        <div class="section-title" style="margin-bottom:0;">↗ Retrieval strategies</div>
+        <span class="text-11 text-muted">Accuracy</span>
+      </div>
+      <div class="strategies-row">
+        <div id="strategies" class="strategies-list"></div>
+        <div class="improvement-box">
+          <span class="text-11 text-muted" style="text-align:center;">Improvement</span>
+          <div class="improvement-chart" id="improvementChart"></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="pdf-frame" id="pdfFrame">
+      <div class="empty-state">
+        <div class="big">No document selected</div>
+        <div class="text-13">Drop a PDF or click to browse to preview it here</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- RIGHT: chat / analysis / sources -->
+  <div class="col right">
+    <div class="tabs-bar">
+      <button class="tab-btn active" data-tab="chat">Chat</button>
+      <button class="tab-btn" data-tab="analysis">Analysis <span class="tab-count" id="analysisCount">0</span></button>
+      <button class="tab-btn" data-tab="sources">Sources <span class="tab-count" id="sourcesCount">0</span></button>
+    </div>
+
+    <div class="tab-panels">
+      <div class="tab-panel active" id="panel-chat">
+        <div class="chat-log" id="chatLog">
+          <div class="locked-state" id="chatLocked">
+            <div class="locked-mark">🤖<span class="badge-lock">🔒</span></div>
+            <div class="big">Upload a PDF to unlock Mindy</div>
+            <div class="text-13">Once your document is ready, you can ask questions and explore cited sources.</div>
+          </div>
+        </div>
+        <div class="composer">
+          <textarea id="queryInput" rows="1" placeholder="Upload a PDF to start chatting..." disabled></textarea>
+          <button class="send-btn" id="sendBtn" disabled>➤</button>
+        </div>
+        <div class="hint">Enter to send · Shift+Enter for new line</div>
+      </div>
+
+      <div class="tab-panel" id="panel-analysis">
+        <div class="analysis-scroll">
+          <div class="locked-state" id="analysisLocked">
+            <div class="locked-mark">📊<span class="badge-lock">🔒</span></div>
+            <div class="big">No analysis yet</div>
+            <div class="text-13">Ask a question in the Chat tab to see session analytics here.</div>
+          </div>
+          <div id="analysisContent" class="hidden">
+            <div class="analysis-title">Session summary</div>
+            <div class="stat-grid">
+              <div class="stat-card"><div class="stat-value" id="statQueries">0</div><div class="stat-label">Queries</div></div>
+              <div class="stat-card"><div class="stat-value" id="statAvgTime">0ms</div><div class="stat-label">Avg. Response</div></div>
+              <div class="stat-card"><div class="stat-value" id="statTotalSources">0</div><div class="stat-label">Total Sources</div></div>
+            </div>
+            <div class="analysis-title">Confidence distribution</div>
+            <div id="confidenceDist"></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="tab-panel" id="panel-sources">
+        <div class="sources-scroll" id="sourcesScroll">
+          <div class="locked-state" id="sourcesLocked">
+            <div class="locked-mark">🗂️<span class="badge-lock">🔒</span></div>
+            <div class="big">No sources yet</div>
+            <div class="text-13">Sources cited in the assistant's answers will be collected here.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+<script src="js/config.js"></script>
+<script src="js/app.js"></script>
+</body>
+</html>
