@@ -1,6 +1,6 @@
 import * as  dns from "node:dns";
 dns.setServers(["1.1.1.1", "8.8.8.8"]);
-
+// de
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module.js';
 import { ValidationPipe } from '@nestjs/common';
