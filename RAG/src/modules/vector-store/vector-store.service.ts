@@ -20,10 +20,12 @@ type SearchResult = {
 
 @Injectable()
 export class VectorStoreService implements OnModuleInit {
-  private readonly client = new QdrantClient({
-    host: 'localhost',
-    port: 6333,
-  })
+  // QDRANT_URL + QDRANT_API_KEY for Qdrant Cloud; falls back to local Qdrant.
+  private readonly client = new QdrantClient(
+    process.env.QDRANT_URL
+      ? { url: process.env.QDRANT_URL, apiKey: process.env.QDRANT_API_KEY }
+      : { host: 'localhost', port: 6333 },
+  )
 
   constructor(
     @InjectModel('Chunk')

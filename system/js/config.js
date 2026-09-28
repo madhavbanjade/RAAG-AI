@@ -3,7 +3,7 @@
    Talks to the RAG NestJS API.
    ============================================ */
 
-const SERVER_ORIGIN = "http://localhost:3001";
+const SERVER_ORIGIN = window.DOCUMIND_API_ORIGIN || "http://localhost:3001";
 const API_BASE = `${SERVER_ORIGIN}/api/v1`;
 
 const TOKEN_KEY = "documind_token";

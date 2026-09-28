@@ -25,6 +25,22 @@ export class EmbeddingService {
 
   //generateEmbeddings
   async generateEmbedding(text: string): Promise<number[]> {
+    // Hosted (free-tier) path: Jina embeddings, 1024 dims to match the Qdrant collection.
+    if (process.env.JINA_API_KEY && process.env.EMBEDDINGS_PROVIDER !== 'ollama') {
+      const response = await axios.post(
+        'https://api.jina.ai/v1/embeddings',
+        {
+          model: process.env.JINA_EMBED_MODEL ?? 'jina-embeddings-v3',
+          task: 'retrieval.passage',
+          dimensions: 1024,
+          input: [text],
+        },
+        { headers: { Authorization: `Bearer ${process.env.JINA_API_KEY}` } },
+      );
+      return response.data.data[0].embedding;
+    }
+
+    // Local path: Ollama bge-m3.
     const response = await axios.post('http://localhost:11434/api/embed', {
       model: 'bge-m3',
       input: text,
